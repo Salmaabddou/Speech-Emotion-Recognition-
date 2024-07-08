@@ -1,56 +1,6 @@
+The provided Python code, developed on Google Colab, involves several steps to create an emotion recognition system using machine learning. Firstly, necessary libraries such as librosa, soundfile, os, glob, pickle, numpy, and specific functions from sklearn (train_test_split from sklearn.model_selection, MLPClassifier from sklearn.neural_network, and accuracy_score from sklearn.metrics) were imported. The function extract_features was defined to extract audio features like Chroma, Mel-frequency, and MFCC, which are crucial for identifying emotions in speech. The code then listed several emotions (neutral, calm, happy, sad, angry, fearful, disgust, and surprised) and assigned specific values to each emotion based on the RAVDESS dataset. However, only the observed emotions (happy, sad, calm, and angry) were considered for the analysis.
 
-The provided Python code, developed on Google Colab, is designed to create an emotion recognition system using machine learning. The process begins by importing essential libraries such as librosa, soundfile, os, glob, pickle, numpy, and specific functions from sklearn (train_test_split from sklearn.model_selection, MLPClassifier from sklearn.neural_network, and accuracy_score from sklearn.metrics).
-
-import librosa
-import soundfile
-import os, glob, pickle
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import accuracy_score
-
-Next, emotions are mapped to specific codes based on the RAVDESS dataset, focusing on the observed emotions: happy, calm, angry, and sad.
-emotions = {
-    '01': 'neutral',
-    '02': 'calm',
-    '03': 'happy',
-    '04': 'sad',
-    '05': 'angry',
-    '06': 'fearful',
-    '07': 'disgust',
-    '08': 'surprised'
-}
-
-observed_emotions = ['happy', 'calm', 'angry', 'sad']
-
-The function extract_features is defined to extract key audio features like Chroma, Mel-frequency, and MFCC, which are crucial for determining emotions in speech.
-
-The load_data function is responsible for loading and splitting the dataset into training and testing sets. It iterates through the audio files, extracts relevant features using extract_feature, and only includes files with observed emotions.
-def load_data(test_size=0.25):
-    x, y = [], []
-    for file in glob.glob("/content/drive/MyDrive/ravdess/Actor_*/*.wav"):
-        file_name = os.path.basename(file)
-        emotion = emotions[file_name.split("-")[2]]
-        if emotion not in observed_emotions:
-            continue
-        feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
-        x.append(feature)
-        y.append(emotion)
-    return train_test_split(np.array(x), y, test_size=test_size, random_state=9)
-    The dataset is then split into training and testing sets with a specified test_size of 50%.
-    x_train, x_test, y_train, y_test = load_data(test_size=0.5)
-
-The MLPClassifier is initialized with specific parameters: alpha set to 0.015, batch_size to 256, epsilon to 1e-08, hidden_layer_sizes to (150,), learning_rate to 'adaptive', and max_iter to 550, to effectively classify the emotions.
-model = MLPClassifier(
-    alpha=0.015,
-    batch_size=256,
-    epsilon=1e-08,
-    hidden_layer_sizes=(150,),
-    learning_rate='adaptive',
-    max_iter=550
-)
-
-Finally, a graphical user interface (GUI) is constructed to make the project a practical application, providing a user-friendly interface as illustrated in Figure 10. This concise explanation includes all the major steps and details of the code, making it easy to understand the workflow of the emotion recognition system.
+The function load_data was defined to collect these features from the audio files, with a test size of 20%. The dataset was split into training (75%) and testing (25%) sets using the MLPClassifier for classification. The model then predicted the emotions for the test set (y_pred), and the accuracy of the system was calculated and printed using the accuracy_score function. Finally, a graphical user interface (GUI) was developed to make the project a real application, providing a user-friendly interface for interaction.
 
 
 
