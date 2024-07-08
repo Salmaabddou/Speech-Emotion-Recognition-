@@ -1,4 +1,3 @@
-""" Code By Ahmed Essam and Islam Essam"""
 from PyQt5 import QtWidgets,QtGui,QtCore
 import sklearn,soundfile,time
 import numpy as np
